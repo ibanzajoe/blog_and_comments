@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+  <div class="nav-row text-center">
+    <div id="navigation">
+      <div class="section" id="navigation-wrapper">
+        <div class="widget HTML" data-version="1" id="HTML1">
+          <ul class="menu">
+            <li>
+              <a href="/blog">Home</a>
+            </li>
+            <li>
+              <a href="/blog_input">New Entry</a>
+
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+            <li>
+              <a href="/comment">Comment</a>
+            </li>
+            <li>
+              <%= session[:user_id] %>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-row">
+    <div class="content">
+      <%=yield%>
+    </div>
+  </div>
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+</body>
+<br>
+<br>
+
+<hr>
+<footer class="footer text-center" style="clear: left;">
+  <small>
+    &copy; Blog <code>BETA</code> <time>2016</time>. All rights reserved.
+    <br>
+
+  </small>
+</footer>

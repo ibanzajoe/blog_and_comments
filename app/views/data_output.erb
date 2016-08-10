@@ -1,0 +1,53 @@
+<div class="table-full" id="company">
+  <div class="table-responsive">
+    <table class="table" data-sort="table" id="sortable">
+      <thead>
+      <tr>
+        <th><input type="checkbox" class="select-all" id="selectAll"></th>
+        <th class="headerSortUp">ID</th>
+        <!-- <th>Rank</th> -->
+        <th>title</th>
+        <th>language</th>
+        <th>tags</th>
+        <th>answer</th>
+        <th>context</th>
+        <th>example</th>
+      </tr>
+      </thead>
+      <tbody>
+        <form role="form" method="POST" class="form-horizontal" id="form2" action="/data_delete">
+          <% @documents.each do |document| %>
+            <tr data-id="<%= document[:id] %>">
+              <td><input type="checkbox" class="select-row checkall"></td>
+              <td><%= document[:id] %></td>
+              <td><%= document[:title] %></td>
+              <td><%= document[:language] %></td>
+              <td><%= document[:tags] %></td>
+              <td><%= document[:answer].html_safe %></td>
+              <td><%= document[:context].html_safe %></td>
+              <td><%= document[:example].html_safe %></td>
+            </tr>
+          <% end %>
+            <tr>
+              <button type="submit" form="form2" value="Submit">Delete</button>
+            </tr>
+        </form>
+
+      <tr>
+        <th colspan="6"><a href="javascript:;" class="deleteall" title="dtable">Delete Selected</a></th>
+
+      </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+
+  })
+
+
+</script>

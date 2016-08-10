@@ -1,0 +1,115 @@
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script>
+  tinymce.init({
+    selector:'textarea',
+    plugins: 'image textpattern autoresize',
+    width: '97%',
+    height: 300,
+  });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<div class="comment_input text-center">
+  <h1>Comment Input</h1>
+  <form role="form" method="POST" class="form_comment" id="form_comment1" action="/comment_save">
+    <input type="hidden" value="<%= session[:user_id] %>" name="user_id">
+    <input type="hidden" value="<%= Date.today.to_s %>" name="date">
+    <div class="form_group">
+      <label for="subject">Subject of Comment</label>
+      <input type="text" name="subject">
+    </div>
+    <div class="form_group">
+      <label for="form_comment_tags">Tags (separated by comma)</label>
+      <input type="text" name="tags">
+    </div>
+    <div class="form_group">
+      <div class="tiny_container">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#text_field">Simple collapsible</button>
+        <div id="text_field" class="tiny_text_container collapse">
+          <label for="content">Your Comment</label>
+          <textarea name="content"></textarea>
+        </div>
+      </div>
+    </div>
+    <button type="submit" form="form_comment1" value="Submit">Submit</button>
+  </form>
+</div>
+
+<div class="row comment_output text-center">
+  <h1>Comment Output Section</h1>
+  <% @spec_data.each do |dat| %>
+    <div class="comment_container row">
+      <div class="comment_sidebar col-md-1">Up</div>
+      <div class="comment_content_container col-md-11">
+        <div class="flex_item_1 col-md-12">
+
+          <p class="col-md-6" style="text-align: left;">
+            <% @username = User.where(:id => dat[:user_id]).first %>
+            <%= @username[:username] %>
+          </p>
+          <p class="col-md-6" style="text-align: right;"><%= dat[:date] %></p>
+          <!-- <p>username, first name, last name, date of post</p> -->
+        </div>
+        <div class="flex_item_2 col-md-12" >
+          <%= dat[:content] %>
+
+          <br>
+          <!-- <p> comment content goes here </p> -->
+          <%= dat[:tags] %>
+          <!-- <p> comment tags goes here </p> -->
+        </div>
+        <div class="flex_item_3 comment_reply col-md-12">
+          <form role="form" id="form_comment_<%= dat[:id] %>" method="POST" action="/comment_reply">
+            <input type="hidden" name="id" value="<%= dat[:id] %>">
+            <input type="hidden" name="date" value="<%= Date.today.to_s %>">
+            <input type="text" name="content" placeholder="Reply...">
+          </form>
+          <button type="submit" form="form_comment_<%= dat[:id] %>" value="Submit">Submit</button>
+        </div>
+      </div>
+      <!-- <p> date </p> -->
+    </div>
+      <% def children(xxx)
+           @child = Comment.where(:child_of => xxx)
+           @child_count = @child.count %>
+          <% @child.each do |chill| %>
+              <div class="comment_reply_container row">
+                <div class="comment_sidebar col-md-1">Up</div>
+                <div class="comment_content_container col-md-11">
+                  <div class="flex_item_1 col-md-12">
+
+                    <p class="col-md-6" style="text-align: left;">
+                      <% @username = User.where(:id => chill[:user_id]).first %>
+                      <%= @username[:username] %>
+                    </p>
+                    <p class="col-md-6" style="text-align: right;"><%= chill[:date] %></p>
+                    <!-- <p>username, first name, last name, date of post</p> -->
+                  </div>
+                  <div class="flex_item_2 col-md-12" >
+                    <%= chill[:content] %>
+
+                    <br>
+                    <!-- <p> comment content goes here </p> -->
+                    <%= chill[:tags] %>
+                    <!-- <p> comment tags goes here </p> -->
+                  </div>
+                  <div class="flex_item_3 comment_reply col-md-12">
+                    <form role="form" id="form_comment_<%= chill[:id] %>" method="POST" action="/comment_reply">
+                      <input type="hidden" name="id" value="<%= chill[:id] %>">
+                      <input type="hidden" name="date" value="<%= Date.today.to_s %>">
+                      <input type="text" name="content" placeholder="Reply...">
+                    </form>
+                    <button type="submit" form="form_comment_<%= chill[:id] %>" value="Submit">Submit</button>
+                  </div>
+                </div>
+                <!-- <p> date </p> -->
+                <div class="child_reply">
+                  <%= children(chill[:id]) %>
+                </div>
+              </div>
+          <% end %>
+
+      <% end %>
+    <%= children(dat[:id]) %>
+  <% end %>
+</div>

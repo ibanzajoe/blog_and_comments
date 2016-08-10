@@ -1,0 +1,49 @@
+<section class="blog">
+  <div class="table-full" id="company">
+    <div class="table-responsive">
+      <table class="table" data-sort="table" id="sortable">
+        <thead>
+        <tr>
+          <th><input type="checkbox" class="select-all checkall" id="selectAll"></th>
+          <th class="headerSortUp">ID</th>
+          <!-- <th>Rank</th> -->
+          <th>title</th>
+          <th>tags</th>
+          <th>content</th>
+          <th>date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <form role="form" method="POST" class="form-horizontal" id="form2" action="/blog_delete">
+          <% @bbb.each do |document| %>
+              <tr data-id="<%= document[:id] %>">
+                <td><input type="checkbox" class="select-row checkall" name="id[]" value="<%= document[:id] %>"></td>
+                <td><%= document[:id] %></td>
+                <td><%= document[:title] %></td>
+                <td><%= document[:tags] %></td>
+                <td><%= document[:content].html_safe %></td>
+                <td><%= document[:date] %></td>
+              </tr>
+          <% end %>
+            <button type="submit" form="form2" value="Submit">Delete</button>
+        </form>
+
+        <tr>
+          <th colspan="6"><a href="javascript:;" class="deleteall" title="dtable">Delete Selected</a></th>
+
+        </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+</section>
