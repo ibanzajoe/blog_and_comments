@@ -7,7 +7,6 @@
     height: 300,
   });
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <div class="comment_input text-center">
   <h1>Comment Input</h1>
@@ -35,11 +34,21 @@
   </form>
 </div>
 
+
+
+
 <div class="row comment_output text-center">
   <h1>Comment Output Section</h1>
   <% @spec_data.each do |dat| %>
     <div class="comment_container row">
-      <div class="comment_sidebar col-md-1">Up</div>
+      <div class="comment_sidebar col-md-1">
+        <a class="comment_upvote" href="" name="<%= dat[:id] %>" ><img src="/img/up_arrow.png" alt="up_arrow" style="width: 20px; height: 20px;"></a>
+        <br>
+        <p>3</p>
+        <a class="comment_downvote" href="" name="<%= dat[:id] %>" ><img src="/img/down_arrow.png" alt="down_arrow" style="width: 20px; height: 20px; margin-right: 2px;"></a>
+
+
+      </div>
       <div class="comment_content_container col-md-11">
         <div class="flex_item_1 col-md-12">
 
@@ -74,7 +83,16 @@
            @child_count = @child.count %>
           <% @child.each do |chill| %>
               <div class="comment_reply_container row">
-                <div class="comment_sidebar col-md-1">Up</div>
+                <div class="comment_sidebar col-md-1">
+                  <div class="comment_sidebar col-md-1">
+                    <a class="comment_upvote" href="" name="<%= chill[:id] %>"><img src="/img/up_arrow.png" alt="up_arrow" style="width: 20px; height: 20px;"></a>
+                    <br>
+                    <p>3</p>
+                    <a class="comment_downvote" href="" name="<%= chill[:id] %>"><img src="/img/down_arrow.png" alt="down_arrow" style="width: 20px; height: 20px; margin-right: 2px;"></a>
+
+
+                  </div>
+                </div>
                 <div class="comment_content_container col-md-11">
                   <div class="flex_item_1 col-md-12">
 
@@ -113,3 +131,16 @@
     <%= children(dat[:id]) %>
   <% end %>
 </div>
+
+
+<script>
+  $(document).ready(function(){
+    $(".comment_upvote").click(function(e){
+      e.preventDefault()
+      var comment_id = $(this).attr('name')
+      var id = {id: comment_id, vote: "upvote"}
+      $.post('/comment_vote', id )
+    })
+  })
+
+</script>

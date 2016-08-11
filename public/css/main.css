@@ -130,3 +130,7 @@
 .child_reply {
     margin-left: 70px;
 }
+
+.comment_sidebar p {
+    margin-right: 2px;
+}

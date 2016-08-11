@@ -177,6 +177,17 @@ module RubyNew
       redirect "/comment"
     end
 
+    post "/comment_vote" do
+      comm = Comment.where(:id => params[:id]).first
+
+      if params[:vote] == "upvote"
+
+        comm[:vote_count] = comm[:vote_count] + 1
+
+      end
+      comm[:vote_count]
+
+    end
 
     get "/about" do
       render "about"
