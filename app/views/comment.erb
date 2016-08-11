@@ -53,7 +53,9 @@
         <div class="flex_item_1 col-md-12">
 
           <p class="col-md-6" style="text-align: left;">
-            <% @username = User.where(:id => dat[:user_id]).first %>
+            <% 
+            @username = User.where(:id => dat[:user_id]).first 
+            %>
             <%= @username[:username] %>
           </p>
           <p class="col-md-6" style="text-align: right;"><%= dat[:date] %></p>
@@ -87,7 +89,7 @@
                   <div class="comment_sidebar col-md-1">
                     <a class="comment_upvote" href="" name="<%= chill[:id] %>"><img src="/img/up_arrow.png" alt="up_arrow" style="width: 20px; height: 20px;"></a>
                     <br>
-                    <p>3</p>
+                    <p><%=chill[:vote_count]%></p>
                     <a class="comment_downvote" href="" name="<%= chill[:id] %>"><img src="/img/down_arrow.png" alt="down_arrow" style="width: 20px; height: 20px; margin-right: 2px;"></a>
 
 
@@ -139,7 +141,11 @@
       e.preventDefault()
       var comment_id = $(this).attr('name')
       var id = {id: comment_id, vote: "upvote"}
-      $.post('/comment_vote', id )
+      
+      // window.location.replace("/comment_vote/" + comment_id + "/" + "upvote")
+      $.post('/comment_vote', id, function(res){
+        location.reload()
+      })
     })
   })
 

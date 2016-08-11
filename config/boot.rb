@@ -45,18 +45,23 @@ Padrino.dependency_paths.unshift Padrino.root('config/initializers/*.rb')
 # These hooks are run before any dependencies are required.
 #
 Padrino.before_load do
-  # Setup better_errors
-  if Padrino.env == :development
-    Padrino::Application.use BetterErrors::Middleware
-    BetterErrors.application_root = PADRINO_ROOT
-    BetterErrors.logger = Padrino.logger
-  end
+
 end
+
 
 ##
 # Add your after (RE)load hooks here
 #
 Padrino.after_load do
+end
+
+# Setup better_errors
+if Padrino.env == :development
+  require 'better_errors'
+  Padrino::Application.use BetterErrors::Middleware
+  BetterErrors.application_root = PADRINO_ROOT
+  BetterErrors.logger = Padrino.logger
+  BetterErrors::Middleware.allow_ip! '0.0.0.0/0'
 end
 
 Padrino.load!

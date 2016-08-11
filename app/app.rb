@@ -154,7 +154,7 @@ module RubyNew
     end
 
     get "/comment" do
-      @spec_data = Comment.where(:child_of => nil)
+      @spec_data = Comment.where(:child_of => nil).all
       @data = Comment.all
       @user = User.all
       render "comment"
@@ -183,9 +183,11 @@ module RubyNew
       if params[:vote] == "upvote"
 
         comm[:vote_count] = comm[:vote_count] + 1
+        comm.save
 
       end
-      comm[:vote_count]
+
+      comm.values.to_json
 
     end
 
